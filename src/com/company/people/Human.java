@@ -8,4 +8,7 @@ public class Human {
         this.name = name;
         this.cash = cash;
     }
+    public Human(String name) {
+        this.name = name;
+    }
 }

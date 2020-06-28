@@ -1,23 +1,25 @@
 package com.company;
 
+import com.company.people.Player;
+import org.w3c.dom.ls.LSOutput;
+
+import java.sql.SQLOutput;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
-        
-        Car car = new Car();
-        System.out.println(car);
-        Car car1 = new Car();
-        System.out.println(car1);
-        Car car2 = new Car();
-        System.out.println(car2);
-        Car car3 = new Car();
-        System.out.println(car3);
-        Car car4 = new Car();
-        System.out.println(car4);
 
+        Scanner scan = new Scanner(System.in);
 
+        System.out.println("Wanna play?");
+        System.out.print("Enter your name:  ");
+        String name = scan.nextLine();
+
+        Player player = new Player(name);
+        System.out.println("hi " + name + ", type number for what you want to do");
+        player.mainMenu();
 
     }
 }
