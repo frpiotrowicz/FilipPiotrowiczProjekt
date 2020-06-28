@@ -98,7 +98,16 @@ public class Player extends Human {
                 System.out.println("wrong number try again");
                 buyCarMenu();
             } else if (i < carsToBuy.size()+1) {
-                System.out.println("kupno fury");
+                System.out.println("you sure you want to buy this car? if so type 'yes'");
+                System.out.println(carsToBuy.get(i-1));
+                String wantBuy = scan.next();
+                if (wantBuy.equals("yes")) {
+                    myCars.add(carsToBuy.get(i-1));
+                    carsToBuy.remove(i-1);
+                    Car newCar = new Car();
+                    this.carsToBuy.add(newCar);
+                    this.mainMenu();
+                }
             } else {
                 System.out.println("wrong number try again");
                 buyCarMenu();
@@ -111,14 +120,6 @@ public class Player extends Human {
                 this.buyCarMenu();
             }
         }
-//        String back = scan.next();
-//        while (!back.equals("back")){
-//            System.out.println("i just dont know what to do with myself");
-//            System.out.println();
-//            System.out.println("type 'back'to return to previous menu" );
-//            back = scan.next();
-//        }
-//        this.mainMenu();
     }
 
     public void yourCarsMenu(){
