@@ -1,13 +1,18 @@
 package com.company.people;
 
+import com.company.Car;
 import org.w3c.dom.ls.LSOutput;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Player extends Human {
     private static final int Def_Score = 0;
     private static final double Def_Cash = 10000.0;
     public int score;
+    public List<Car> myCars = new LinkedList<>();
+    public List<Car> carsToBuy = new LinkedList<>();
 
     Scanner scan = new Scanner(System.in);
 
@@ -15,6 +20,21 @@ public class Player extends Human {
         super(name);
         this.score = Def_Score;
         this.cash = Def_Cash;
+        for (int i = 0; i < 12; i++){
+            Car newCar = new Car();
+            this.carsToBuy.add(newCar);
+        }
+
+    }
+
+    public boolean checkString(String choice){
+        try {
+            int i = Integer.parseInt(choice);
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     public void mainMenu() {
@@ -28,16 +48,7 @@ public class Player extends Human {
 
         String choice = scan.next();
 
-        boolean canCompile;
-        try {
-            int i = Integer.parseInt(choice);
-            canCompile = true;
-        }
-        catch (Exception e) {
-            canCompile = false;
-        }
-
-        if(canCompile) {
+        if(checkString(choice)) {
             int i = Integer.parseInt(choice);
             switch (i) {
                 case 1:
@@ -74,20 +85,51 @@ public class Player extends Human {
     }
 
     public void buyCarMenu() {
-        System.out.println("tu bedzie lista samochodow");
-        System.out.println("type 'back' to return to previous menu" );
-        String back = scan.next();
-        while (!back.equals("back")){
-            System.out.println("i just dont know what to do with myself");
-            System.out.println();
-            System.out.println("type 'back'to return to previous menu" );
-            back = scan.next();
+        for (int i = 0; i < carsToBuy.size(); i++){
+            System.out.println(i+1 + ". " + carsToBuy.get(i));
         }
-        this.mainMenu();
+        System.out.println();
+        System.out.println("Choose number to buy car, or type 'back' to return to previous menu" );
+
+        String choice = scan.next();
+        if(checkString(choice)) {
+            int i = Integer.parseInt(choice);
+            if (i < 1){
+                System.out.println("wrong number try again");
+                buyCarMenu();
+            } else if (i < carsToBuy.size()+1) {
+                System.out.println("kupno fury");
+            } else {
+                System.out.println("wrong number try again");
+                buyCarMenu();
+            }
+        } else {
+            if (choice.equals("back")){
+                this.mainMenu();
+            } else {
+                System.out.println("dont know what you want. Try again");
+                this.buyCarMenu();
+            }
+        }
+//        String back = scan.next();
+//        while (!back.equals("back")){
+//            System.out.println("i just dont know what to do with myself");
+//            System.out.println();
+//            System.out.println("type 'back'to return to previous menu" );
+//            back = scan.next();
+//        }
+//        this.mainMenu();
     }
 
     public void yourCarsMenu(){
-        System.out.println("tu beda twoje auta");
+        if (myCars.size()<1){
+            System.out.println("You dont own any cars");
+        }else {
+            for (int i = 0; i < myCars.size(); i++) {
+                System.out.println(i + 1 + ". " + myCars.get(i));
+            }
+        }
+        System.out.println();
         System.out.println("write 'back' to return to previous menu" );
     }
 
