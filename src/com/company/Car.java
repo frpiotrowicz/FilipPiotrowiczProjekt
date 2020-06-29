@@ -81,44 +81,44 @@ public class Car extends Elements {
 
 
     public boolean youSure(double price){
-        System.out.println("are you sure you want to try repair for " + price*100d/100d +"? type 'yes' if so or anything else to cancel");
+        System.out.println("are you sure you want to try repair for " + Math.round(price*100d)/100d +"? type 'yes' if so or anything else to cancel");
         String answer = scan.next();
         return "yes".equals(answer);
     }
-
-    public void repairBrakes(){
+    
+    public boolean repairBrakes(){
         if (repair(brakes)) {
             brakes = true;
-            this.value *=1.1;
-        }
+            return true;
+        } else return false;
     }
 
-    public void repairSuspension(){
+    public boolean repairSuspension(){
         if (repair(suspension)) {
             suspension = true;
-            this.value *= 1.2;
-        }
+            return true;
+        } else return false;
     }
 
-    public void repairEngine(){
+    public boolean repairEngine(){
         if (repair(engine)) {
             engine = true;
-            this.value *= 2;
-        }
+            return true;
+        } else return false;
     }
 
-    public void repairBody(){
+    public boolean repairBody(){
         if (repair(body)) {
             body = true;
-            this.value *= 1.5;
-        }
+            return true;
+        }else return false;
     }
 
-    public void repairTransmission(){
+    public boolean repairTransmission(){
         if (repair(transmission)) {
             transmission = true;
-            this.value *= 1.5;
-        }
+            return true;
+        } else return  false;
     }
 
     public void chooseRepair(String element, Player player, double priceMultiplayer){
@@ -126,27 +126,30 @@ public class Car extends Elements {
         switch (element) {
             case "brakes":
                 price = this.value*0.07*priceMultiplayer;
-                if (youSure(price)) {
-                    player.cash -= price;
+                if (youSure(price) && this.repairBrakes()) {
                     this.repairBrakes();
+                    player.cash -= price;
+                    this.value *=1.1;
                 } else {
                     player.yourCarsMenu();
                 }
                 break;
             case "suspension":
                 price = this.value*0.15*priceMultiplayer;
-                if (youSure(price)) {
-                    player.cash -= price;
+                if (youSure(price) && this.repairSuspension()) {
                     this.repairSuspension();
+                    player.cash -= price;
+                    this.value *= 1.2;
                 } else {
                     player.yourCarsMenu();
                 }
                 break;
             case "engine":
                 price = this.value*0.7*priceMultiplayer;
-                if (youSure(price)) {
-                    player.cash -= price;
+                if (youSure(price) && this.repairEngine()) {
                     this.repairEngine();
+                    player.cash -= price;
+                    this.value *= 2;
                 }else {
                     player.yourCarsMenu();
                 }
@@ -154,8 +157,9 @@ public class Car extends Elements {
             case "body":
                 price = this.value*0.3*priceMultiplayer;
                 if (youSure(price)) {
-                    player.cash -= price;
                     this.repairBody();
+                    player.cash -= price;
+                    this.value *= 1.5;
                 }else {
                     player.yourCarsMenu();
                 }
@@ -163,8 +167,9 @@ public class Car extends Elements {
             case "transmission":
                 price = this.value*0.3*priceMultiplayer;
                 if (youSure(price)) {
-                    player.cash -= price;
                     this.repairTransmission();
+                    player.cash -= price;
+                    this.value *= 1.5;
                 }else {
                     player.yourCarsMenu();
                 }
@@ -178,6 +183,7 @@ public class Car extends Elements {
         chooseRepair(element, player, 1.0);
         System.out.println("congrats. car rapaired successfully");
         System.out.println(this);
+        System.out.println();
         player.yourCarsMenu();
     }
 

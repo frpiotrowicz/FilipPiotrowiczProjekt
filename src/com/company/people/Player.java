@@ -86,7 +86,7 @@ public class Player extends Human {
         System.out.println("3. Clients");
         System.out.println("4. Buy Advertisment");
         System.out.println("5. EXIT");
-        System.out.println("Your Cash: " + this.cash + "/" + Def_Cash * 2);
+        System.out.println("Your Cash: " + Math.round(this.cash*100d)/100d + "/" + Def_Cash * 2);
         System.out.println("Your Score: " + this.score);
 
         String choice = scan.next();
