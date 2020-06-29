@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Car extends Elements {
-    private double value;
+    public double value;
     private String brand;
     private double mileage;
     private String colour;

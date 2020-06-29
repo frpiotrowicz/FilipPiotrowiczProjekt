@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class Player extends Human {
     private static final int Def_Score = 0;
-    private static final double Def_Cash = 10000.0;
+    private static final double Def_Cash = 100000.0;
     public int score;
     public List<Car> myCars = new LinkedList<>();
     public List<Car> carsToBuy = new LinkedList<>();
@@ -25,6 +25,10 @@ public class Player extends Human {
             this.carsToBuy.add(newCar);
         }
 
+    }
+
+    public boolean haveMoney(int i) {
+        return this.cash > carsToBuy.get(i).value;
     }
 
     public boolean checkString(String choice){
@@ -43,7 +47,7 @@ public class Player extends Human {
         System.out.println("3. Clients");
         System.out.println("4. Buy Advertisment");
         System.out.println("5. EXIT");
-        System.out.println("Your Cash: " + this.cash + "/" + this.cash*2);
+        System.out.println("Your Cash: " + this.cash + "/" + Def_Cash*2);
         System.out.println("Your Score: " + this.score);
 
         String choice = scan.next();
@@ -98,15 +102,23 @@ public class Player extends Human {
                 System.out.println("wrong number try again");
                 buyCarMenu();
             } else if (i < carsToBuy.size()+1) {
-                System.out.println("you sure you want to buy this car? if so type 'yes'");
-                System.out.println(carsToBuy.get(i-1));
-                String wantBuy = scan.next();
-                if (wantBuy.equals("yes")) {
-                    myCars.add(carsToBuy.get(i-1));
-                    carsToBuy.remove(i-1);
-                    Car newCar = new Car();
-                    this.carsToBuy.add(newCar);
-                    this.mainMenu();
+                if(haveMoney(i-1)) {
+                    System.out.println("you sure you want to buy this car? if so type 'yes', or anything else if not");
+                    System.out.println(carsToBuy.get(i-1));
+                    String wantBuy = scan.next();
+                    if (wantBuy.equals("yes")) {
+                        this.cash -= carsToBuy.get(i - 1).value;
+                        myCars.add(carsToBuy.get(i - 1));
+                        carsToBuy.remove(i - 1);
+                        Car newCar = new Car();
+                        this.carsToBuy.add(newCar);
+                        this.mainMenu();
+                    } else {
+                        this.buyCarMenu();
+                    }
+                }else {
+                    System.out.println("YOU DONT HAVE ENOUGH MONEY");
+                    this.buyCarMenu();
                 }
             } else {
                 System.out.println("wrong number try again");
@@ -131,7 +143,7 @@ public class Player extends Human {
             }
         }
         System.out.println();
-        System.out.println("write 'back' to return to previous menu" );
+        System.out.println("write 'back' to return to previous menu, or choose car to repair" );
     }
 
     public  void seeClientsMenu(){
