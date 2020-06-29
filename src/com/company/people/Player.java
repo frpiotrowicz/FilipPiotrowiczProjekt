@@ -42,6 +42,7 @@ public class Player extends Human {
     }
 
     public void mainMenu() {
+        System.out.println("MAIN MENU:");
         System.out.println("1. Buy Car");
         System.out.println("2. Your Cars");
         System.out.println("3. Clients");
@@ -98,14 +99,17 @@ public class Player extends Human {
         String choice = scan.next();
         if(checkString(choice)) {
             int i = Integer.parseInt(choice);
+
             if (i < 1){
                 System.out.println("wrong number try again");
                 buyCarMenu();
             } else if (i < carsToBuy.size()+1) {
+
                 if(haveMoney(i-1)) {
                     System.out.println("you sure you want to buy this car? if so type 'yes', or anything else if not");
                     System.out.println(carsToBuy.get(i-1));
                     String wantBuy = scan.next();
+
                     if (wantBuy.equals("yes")) {
                         this.cash -= carsToBuy.get(i - 1).value;
                         myCars.add(carsToBuy.get(i - 1));
@@ -116,15 +120,19 @@ public class Player extends Human {
                     } else {
                         this.buyCarMenu();
                     }
+
                 }else {
                     System.out.println("YOU DONT HAVE ENOUGH MONEY");
                     this.buyCarMenu();
                 }
+
             } else {
                 System.out.println("wrong number try again");
                 buyCarMenu();
             }
+
         } else {
+
             if (choice.equals("back")){
                 this.mainMenu();
             } else {
@@ -137,13 +145,43 @@ public class Player extends Human {
     public void yourCarsMenu(){
         if (myCars.size()<1){
             System.out.println("You dont own any cars");
+            System.out.println();
+            this.mainMenu();
         }else {
             for (int i = 0; i < myCars.size(); i++) {
                 System.out.println(i + 1 + ". " + myCars.get(i));
             }
         }
+
         System.out.println();
-        System.out.println("write 'back' to return to previous menu, or choose car to repair" );
+        System.out.println("choose car to repair, or write 'back' to return to previous menu, or choose car to repair" );
+
+        String chooseCar = scan.next();
+
+        if (checkString(chooseCar)){
+            int i = Integer.parseInt(chooseCar);
+
+            if (i < this.myCars.size()+1 && i > 0) {
+                System.out.println("you choose this car to repair");
+                System.out.println(myCars.get(i - 1));
+                System.out.println();
+                System.out.println("type what do you want to repair");
+
+                String element = scan.next();
+
+                this.myCars.get(i-1).chooseRepair(element);
+                System.out.println(myCars.get(i - 1));
+            } else {
+                System.out.println("wrong number. choose again");
+                this.yourCarsMenu();
+            }
+
+        } else if (chooseCar.equals("back")) {
+            this.mainMenu();
+        } else {
+            System.out.println("dont know what to do. try again");
+            this.yourCarsMenu();
+        }
     }
 
     public  void seeClientsMenu(){

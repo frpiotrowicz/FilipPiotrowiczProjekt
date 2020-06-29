@@ -76,4 +76,56 @@ public class Car extends Elements {
         this.transmission = random.nextBoolean();
     }
 
+
+    public void repairBrakes(){
+        if (repair(brakes)) {
+            brakes = true;
+        }
+    }
+
+    public void repairSuspension(){
+        if (repair(suspension)) {
+            suspension = true;
+        }
+    }
+
+    public void repairEngine(){
+        if (repair(engine)) {
+            engine = true;
+        }
+    }
+
+    public void repairBody(){
+        if (repair(body)) {
+            body = true;
+        }
+    }
+
+    public void repairTransmission(){
+        if (repair(transmission)) {
+            transmission = true;
+        }
+    }
+
+    public void chooseRepair(String element){
+        switch (elementsToInt(element)) {
+            case 1:
+                this.repairBrakes();
+                break;
+            case 2:
+                this.repairSuspension();
+                break;
+            case 3:
+                this.repairEngine();
+                break;
+            case 4:
+                this.repairBody();
+                break;
+            case 5:
+                this.repairTransmission();
+                break;
+            default:
+                System.out.println("there is no such part");
+        }
+    }
 }

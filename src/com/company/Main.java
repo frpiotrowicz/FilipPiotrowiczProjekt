@@ -21,5 +21,7 @@ public class Main {
         System.out.println("hi " + name + ", type number for what you want to do");
         player.mainMenu();
 
+
+
     }
 }
