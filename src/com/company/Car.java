@@ -108,20 +108,20 @@ public class Car extends Elements {
     }
 
     public void chooseRepair(String element){
-        switch (elementsToInt(element)) {
-            case 1:
+        switch (element) {
+            case "brakes":
                 this.repairBrakes();
                 break;
-            case 2:
+            case "suspension":
                 this.repairSuspension();
                 break;
-            case 3:
+            case "engine":
                 this.repairEngine();
                 break;
-            case 4:
+            case "body":
                 this.repairBody();
                 break;
-            case 5:
+            case "transmission":
                 this.repairTransmission();
                 break;
             default:
