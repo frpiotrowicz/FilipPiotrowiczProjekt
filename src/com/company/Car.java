@@ -1,7 +1,10 @@
 package com.company;
 
+import com.company.people.Player;
+
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.Scanner;
 
 public class Car extends Elements {
     public double value;
@@ -15,7 +18,7 @@ public class Car extends Elements {
     private boolean body;
     private boolean transmission;
 
-    private String braksDisplay;
+    Scanner scan = new Scanner(System.in);
 
     private static String[] carBrands = new String[]{
             "Audi",
@@ -77,55 +80,136 @@ public class Car extends Elements {
     }
 
 
+    public boolean youSure(double price){
+        System.out.println("are you sure you want to try repair for " + price*100d/100d +"? type 'yes' if so or anything else to cancel");
+        String answer = scan.next();
+        return "yes".equals(answer);
+    }
+
     public void repairBrakes(){
         if (repair(brakes)) {
             brakes = true;
+            this.value *=1.1;
         }
     }
 
     public void repairSuspension(){
         if (repair(suspension)) {
             suspension = true;
+            this.value *= 1.2;
         }
     }
 
     public void repairEngine(){
         if (repair(engine)) {
             engine = true;
+            this.value *= 2;
         }
     }
 
     public void repairBody(){
         if (repair(body)) {
             body = true;
+            this.value *= 1.5;
         }
     }
 
     public void repairTransmission(){
         if (repair(transmission)) {
             transmission = true;
+            this.value *= 1.5;
         }
     }
 
-    public void chooseRepair(String element){
+    public void chooseRepair(String element, Player player, double priceMultiplayer){
+        double price;
         switch (element) {
             case "brakes":
-                this.repairBrakes();
+                price = this.value*0.07*priceMultiplayer;
+                if (youSure(price)) {
+                    player.cash -= price;
+                    this.repairBrakes();
+                } else {
+                    player.yourCarsMenu();
+                }
                 break;
             case "suspension":
-                this.repairSuspension();
+                price = this.value*0.15*priceMultiplayer;
+                if (youSure(price)) {
+                    player.cash -= price;
+                    this.repairSuspension();
+                } else {
+                    player.yourCarsMenu();
+                }
                 break;
             case "engine":
-                this.repairEngine();
+                price = this.value*0.7*priceMultiplayer;
+                if (youSure(price)) {
+                    player.cash -= price;
+                    this.repairEngine();
+                }else {
+                    player.yourCarsMenu();
+                }
                 break;
             case "body":
-                this.repairBody();
+                price = this.value*0.3*priceMultiplayer;
+                if (youSure(price)) {
+                    player.cash -= price;
+                    this.repairBody();
+                }else {
+                    player.yourCarsMenu();
+                }
                 break;
             case "transmission":
-                this.repairTransmission();
+                price = this.value*0.3*priceMultiplayer;
+                if (youSure(price)) {
+                    player.cash -= price;
+                    this.repairTransmission();
+                }else {
+                    player.yourCarsMenu();
+                }
                 break;
             default:
                 System.out.println("there is no such part");
+        }
+    }
+
+    public void januszRepair(String element, Player player) {
+        chooseRepair(element, player, 1.0);
+        System.out.println("congrats. car rapaired successfully");
+        System.out.println(this);
+        player.yourCarsMenu();
+    }
+
+//    public void marianRepair(String element, Player player){
+//
+//    }
+//
+//    public void adrianRepair(String element, Player player){
+//
+//    }
+
+    public void chooseMechanic(String element, Player player){
+        System.out.println("choose your mechanic with number");
+        System.out.println("1. Janusz: success 100%");
+        System.out.println("2. Marian: success 90%");
+        System.out.println("3. Adrian: success 80%");
+
+        String choice = scan.next();
+
+        switch (choice) {
+            case "1":
+                januszRepair(element, player);
+                break;
+//            case 2:
+//                marianRepair(element, player);
+//                break;
+//            case 3:
+//                adrianRepair(element, player);
+//                break;
+            default:
+                System.out.println("there is no such mechanic");
+                player.yourCarsMenu();
         }
     }
 }

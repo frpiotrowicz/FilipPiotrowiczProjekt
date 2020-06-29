@@ -27,6 +27,20 @@ public class Player extends Human {
 
     }
 
+    public boolean elementExist(String element){
+        switch (element) {
+            case "brakes":
+            case "suspension":
+            case "engine":
+            case "body":
+            case "transmission":
+                return true;
+            default:
+                System.out.println("there is no such part");
+                return false;
+        }
+    }
+
     public boolean haveMoney(int i) {
         return this.cash > carsToBuy.get(i).value;
     }
@@ -117,38 +131,16 @@ public class Player extends Human {
 
         switch (choice) {
             case "1":
-                this.buyCar(choice);
-                break;
             case "2":
-                this.buyCar(choice);
-                break;
             case "3":
-                this.buyCar(choice);
-                break;
             case "4":
-                this.buyCar(choice);
-                break;
             case "5":
-                this.buyCar(choice);
-                break;
             case "6":
-                this.buyCar(choice);
-                break;
             case "7":
-                this.buyCar(choice);
-                break;
             case "8":
-                this.buyCar(choice);
-                break;
             case "9":
-                this.buyCar(choice);
-                break;
             case "10":
-                this.buyCar(choice);
-                break;
             case "11":
-                this.buyCar(choice);
-                break;
             case "12":
                 this.buyCar(choice);
                 break;
@@ -173,7 +165,7 @@ public class Player extends Human {
         }
 
         System.out.println();
-        System.out.println("choose car to repair, or write 'back' to return to previous menu, or choose car to repair" );
+        System.out.println("choose car to repair, or write 'back' to return to previous menu");
 
         String chooseCar = scan.next();
 
@@ -188,8 +180,12 @@ public class Player extends Human {
 
                 String element = scan.next();
 
-                this.myCars.get(i-1).chooseRepair(element);
-                System.out.println(myCars.get(i - 1));
+                if (elementExist(element)) {
+                    this.myCars.get(i - 1).chooseMechanic(element, this);
+                } else {
+                    this.yourCarsMenu();
+                }
+
             } else {
                 System.out.println("wrong number. choose again");
                 this.yourCarsMenu();
