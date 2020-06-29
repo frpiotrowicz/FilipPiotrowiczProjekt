@@ -41,6 +41,30 @@ public class Player extends Human {
         }
     }
 
+    public void buyCar(String choice){
+        int i = Integer.parseInt(choice);
+        if(haveMoney(i-1)) {
+            System.out.println("you sure you want to buy this car? if so type 'yes', or anything else if not");
+            System.out.println(carsToBuy.get(i-1));
+            String wantBuy = scan.next();
+
+            if (wantBuy.equals("yes")) {
+                this.cash -= carsToBuy.get(i - 1).value;
+                myCars.add(carsToBuy.get(i - 1));
+                carsToBuy.remove(i - 1);
+                Car newCar = new Car();
+                this.carsToBuy.add(newCar);
+                this.mainMenu();
+            } else {
+                this.buyCarMenu();
+            }
+
+        }else {
+            System.out.println("YOU DONT HAVE ENOUGH MONEY");
+            this.buyCarMenu();
+        }
+    }
+
     public void mainMenu() {
         System.out.println("MAIN MENU:");
         System.out.println("1. Buy Car");
@@ -48,44 +72,37 @@ public class Player extends Human {
         System.out.println("3. Clients");
         System.out.println("4. Buy Advertisment");
         System.out.println("5. EXIT");
-        System.out.println("Your Cash: " + this.cash + "/" + Def_Cash*2);
+        System.out.println("Your Cash: " + this.cash + "/" + Def_Cash * 2);
         System.out.println("Your Score: " + this.score);
 
         String choice = scan.next();
 
-        if(checkString(choice)) {
-            int i = Integer.parseInt(choice);
-            switch (i) {
-                case 1:
-                    this.buyCarMenu();
+        switch (choice) {
+            case "1":
+                this.buyCarMenu();
+                break;
+            case "2":
+                this.yourCarsMenu();
+                break;
+            case "3":
+                this.seeClientsMenu();
+                break;
+            case "4":
+                this.buyAddMenu();
+                break;
+            case "5":
+                System.out.println("you sure? type 'yes' if so, or anything else to go back");
+                String yes = scan.next();
+                if (yes.equals("yes")) {
                     break;
-                case 2:
-                    this.yourCarsMenu();
-                    break;
-                case 3:
-                    this.seeClientsMenu();
-                    break;
-                case 4:
-                    this.buyAddMenu();
-                    break;
-                case 5:
-                    System.out.println("you sure? type 'yes' if so, or anything else to go back");
-                    String yes = scan.next();
-                    if (yes.equals("yes")) {
-                        break;
-                    } else {
-                        this.mainMenu();
-                    }
-                    break;
-                default:
-                    System.out.println("nothing found bro, choose again");
-                    System.out.println();
+                } else {
                     this.mainMenu();
-            }
-        }else {
-            System.out.println("WRONG!!! Type number bro.");
-            System.out.println();
-            this.mainMenu();
+                }
+                break;
+            default:
+                System.out.println("nothing found bro, choose again");
+                System.out.println();
+                this.mainMenu();
         }
     }
 
@@ -97,48 +114,50 @@ public class Player extends Human {
         System.out.println("Choose number to buy car, or type 'back' to return to previous menu" );
 
         String choice = scan.next();
-        if(checkString(choice)) {
-            int i = Integer.parseInt(choice);
 
-            if (i < 1){
-                System.out.println("wrong number try again");
-                buyCarMenu();
-            } else if (i < carsToBuy.size()+1) {
-
-                if(haveMoney(i-1)) {
-                    System.out.println("you sure you want to buy this car? if so type 'yes', or anything else if not");
-                    System.out.println(carsToBuy.get(i-1));
-                    String wantBuy = scan.next();
-
-                    if (wantBuy.equals("yes")) {
-                        this.cash -= carsToBuy.get(i - 1).value;
-                        myCars.add(carsToBuy.get(i - 1));
-                        carsToBuy.remove(i - 1);
-                        Car newCar = new Car();
-                        this.carsToBuy.add(newCar);
-                        this.mainMenu();
-                    } else {
-                        this.buyCarMenu();
-                    }
-
-                }else {
-                    System.out.println("YOU DONT HAVE ENOUGH MONEY");
-                    this.buyCarMenu();
-                }
-
-            } else {
-                System.out.println("wrong number try again");
-                buyCarMenu();
-            }
-
-        } else {
-
-            if (choice.equals("back")){
+        switch (choice) {
+            case "1":
+                this.buyCar(choice);
+                break;
+            case "2":
+                this.buyCar(choice);
+                break;
+            case "3":
+                this.buyCar(choice);
+                break;
+            case "4":
+                this.buyCar(choice);
+                break;
+            case "5":
+                this.buyCar(choice);
+                break;
+            case "6":
+                this.buyCar(choice);
+                break;
+            case "7":
+                this.buyCar(choice);
+                break;
+            case "8":
+                this.buyCar(choice);
+                break;
+            case "9":
+                this.buyCar(choice);
+                break;
+            case "10":
+                this.buyCar(choice);
+                break;
+            case "11":
+                this.buyCar(choice);
+                break;
+            case "12":
+                this.buyCar(choice);
+                break;
+            case "back":
                 this.mainMenu();
-            } else {
-                System.out.println("dont know what you want. Try again");
-                this.buyCarMenu();
-            }
+                break;
+            default:
+                System.out.println("wrong expression, type again");
+                buyCarMenu();
         }
     }
 

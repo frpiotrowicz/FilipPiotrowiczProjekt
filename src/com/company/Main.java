@@ -19,6 +19,7 @@ public class Main {
 
         Player player = new Player(name);
         System.out.println("hi " + name + ", type number for what you want to do");
+        System.out.println();
         player.mainMenu();
 
 
