@@ -12,12 +12,12 @@ public class Car extends Elements {
     private double mileage;
     private String colour;
     private String segment;
-    private boolean brakes;
+    public boolean brakes;
     private boolean suspension;
     private boolean engine;
     private boolean body;
     private boolean transmission;
-    private boolean repairFailed;
+    public boolean repairFailed = false;
 
     Scanner scan = new Scanner(System.in);
     Random random = new Random();
@@ -191,6 +191,54 @@ public class Car extends Elements {
         }
     }
 
+    public void chooseRepairFail(String element, Player player, double priceMultiplayer) {
+        double price;
+        switch (element) {
+            case "brakes":
+                price = this.value * 0.07 * priceMultiplayer;
+                if (youSure(price) && this.repairBrakes() && player.haveMoney(price)) {
+                    player.cash -= price;
+                } else {
+                    player.yourCarsMenu();
+                }
+                break;
+            case "suspension":
+                price = this.value * 0.15 * priceMultiplayer;
+                if (youSure(price) && this.repairSuspension() && player.haveMoney(price)) {
+                    player.cash -= price;
+                } else {
+                    player.yourCarsMenu();
+                }
+                break;
+            case "engine":
+                price = this.value * 0.7 * priceMultiplayer;
+                if (youSure(price) && this.repairEngine() && player.haveMoney(price)) {
+                    player.cash -= price;
+                } else {
+                    player.yourCarsMenu();
+                }
+                break;
+            case "body":
+                price = this.value * 0.3 * priceMultiplayer;
+                if (youSure(price) && this.repairBody() && player.haveMoney(price)) {
+                    player.cash -= price;
+                } else {
+                    player.yourCarsMenu();
+                }
+                break;
+            case "transmission":
+                price = this.value * 0.3 * priceMultiplayer;
+                if (youSure(price) && this.repairTransmission() && player.haveMoney(price)) {
+                    player.cash -= price;
+                } else {
+                    player.yourCarsMenu();
+                }
+                break;
+            default:
+                System.out.println("there is no such part");
+        }
+    }
+
     public void januszRepair(String element, Player player) {
         chooseRepair(element, player, 1.0);
         System.out.println("congrats. car rapaired successfully");
@@ -201,22 +249,39 @@ public class Car extends Elements {
 
     public void marianRepair(String element, Player player) {
         int randomInt = random.nextInt(99);
-        if (randomInt < 99) {
+        if (randomInt < 90) {
             chooseRepair(element, player, 0.66);
             System.out.println("congrats. car rapaired successfully");
             System.out.println(this);
             System.out.println();
             player.yourCarsMenu();
         } else {
-            this.repairFailed = false;
-            System.out.println("sorry repair failed try with Janusz");
+            this.repairFailed = true;
+            this.chooseRepairFail(element, player, 0.66);
+            System.out.println("sorry repair failed.");
             repairAfterFail(element, player);
         }
-//    }
-//
-//    public void adrianRepair(String element, Player player){
-//
-//    }
+       }
+
+    public void adrianRepair(String element, Player player){
+        if (random.nextInt(99) < 4) {
+            this.screwElement();
+        }
+        if (random.nextInt(99) < 80) {
+            chooseRepair(element, player, 0.66);
+            System.out.println("congrats. car rapaired successfully");
+            System.out.println(this);
+            System.out.println();
+            player.yourCarsMenu();
+        } else {
+            this.repairFailed = true;
+            this.chooseRepairFail(element, player, 0.66);
+            System.out.println("sorry repair failed.");
+            repairAfterFail(element, player);
+        }
+    }
+
+
 
         public void chooseMechanic (String element, Player player){
             System.out.println("choose your mechanic with number");
@@ -226,24 +291,58 @@ public class Car extends Elements {
 
             String mechanic = scan.next();
 
-            switch (mechanic) {
-                case "1":
-                    januszRepair(element, player);
-                    break;
-                case "2":
-                    marianRepair(element, player);
-                    break;
-//            case 3:
-//                adrianRepair(element, player);
-//                break;
-                default:
-                    System.out.println("there is no such mechanic");
-                    player.yourCarsMenu();
+            if (this.repairFailed = false) {
+                switch (mechanic) {
+                    case "1":
+                        januszRepair(element, player);
+                        break;
+                    case "2":
+                        marianRepair(element, player);
+                        break;
+                    case "3":
+                        adrianRepair(element, player);
+                        break;
+                    default:
+                        System.out.println("there is no such mechanic");
+                        player.yourCarsMenu();
+                }
+            } else {
+                System.out.println("you can only try with Janusz now");
+                this.repairAfterFail(element, player);
             }
+        }
+
+
+    public void repairAfterFail(String element, Player player) {
+        System.out.println("would you like to try with Janusz? type yes if so");
+        String choice = scan.next();
+        if (choice.equals("yes")) {
+            januszRepair(element, player);
+        } else {
+            player.mainMenu();
         }
     }
 
-    private void repairAfterFail(String element, Player player) {
-        januszRepair(element, player);
+    public void screwElement(){
+        int rand = random.nextInt(5);
+        switch (rand){
+            case 0:
+                this.brakes = false;
+                break;
+            case 1:
+                this.suspension = false;
+                break;
+            case 2:
+                this.engine = false;
+                break;
+            case 3:
+                this.body = false;
+                break;
+            case 4:
+                this.transmission = false;
+                break;
+            default:
+                break;
+        }
     }
 }
