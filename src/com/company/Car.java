@@ -6,6 +6,8 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Scanner;
 
+import static java.lang.Math.*;
+
 public class Car extends Elements {
     public double value;
     private String brand;
@@ -21,6 +23,31 @@ public class Car extends Elements {
 
     Scanner scan = new Scanner(System.in);
     Random random = new Random();
+
+    public double sumToInvest(){
+        double sum = 0.0;
+
+        if (!this.brakes){
+            sum += this.value*0.07;
+        }
+        if (!this.suspension){
+            sum += this.value*0.15;
+        }
+        if (!this.engine){
+            sum += this.value*0.07;
+        }
+        if (!this.body){
+            sum += this.value*0.3;
+        }
+        if (!this.transmission){
+            sum += this.value*0.3;
+        }
+
+        sum += this.value*0.02;
+        sum = Math.round(sum * 10d) / 10d;
+        return sum;
+
+    }
 
     private static String[] carBrands = new String[]{
             "Audi",
@@ -62,13 +89,14 @@ public class Car extends Elements {
                 ", suspension=" + elements(suspension) +
                 ", engine=" + elements(engine) +
                 ", body=" + elements(body) +
-                ", transmission=" + elements(transmission);
+                ", transmission=" + elements(transmission) +
+                ", Sum to invest= " + sumToInvest();
     }
 
     public Car() {
-        this.value = Math.round(ThreadLocalRandom.current().nextDouble(2000.0, 150000.0) * 100d) / 100d;
+        this.value = round(ThreadLocalRandom.current().nextDouble(2000.0, 150000.0) * 100d) / 100d;
         this.brand = carBrands[random.nextInt(carBrands.length)];
-        this.mileage = Math.round(ThreadLocalRandom.current().nextDouble(0.0, 350000.0));
+        this.mileage = round(ThreadLocalRandom.current().nextDouble(0.0, 350000.0));
         this.colour = carColour[random.nextInt(carColour.length)];
         this.segment = carSegments[random.nextInt(carSegments.length)];
         this.brakes = random.nextBoolean();
@@ -81,7 +109,7 @@ public class Car extends Elements {
 
 
     public boolean youSure(double price) {
-        System.out.println("are you sure you want to try repair for " + Math.round(price * 100d) / 100d + "? type 'yes' if so or anything else to cancel");
+        System.out.println("are you sure you want to try repair for " + round(price * 100d) / 100d + "? type 'yes' if so or anything else to cancel");
         String answer = scan.next();
         return "yes".equals(answer);
     }

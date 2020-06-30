@@ -214,7 +214,9 @@ public class Player extends Human implements HaveMoney {
     }
 
     public  void seeClientsMenu(){
-        System.out.println("tu beda twoi klienci");
+        for (int i = 0; i < clients.size(); i++){
+            System.out.println(i+1 + ". " + clients.get(i));
+        }
         System.out.println("write 'back' to return to previous menu" );
     }
 
