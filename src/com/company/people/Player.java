@@ -13,6 +13,7 @@ public class Player extends Human implements HaveMoney {
     public int score;
     public List<Car> myCars = new LinkedList<>();
     public List<Car> carsToBuy = new LinkedList<>();
+    public List<Client> clients = new LinkedList<>();
 
     Scanner scan = new Scanner(System.in);
 
@@ -23,6 +24,10 @@ public class Player extends Human implements HaveMoney {
         for (int i = 0; i < 12; i++){
             Car newCar = new Car();
             this.carsToBuy.add(newCar);
+        }
+        for (int i = 0; i < 10; i++){
+            Client newClient = new Client();
+            this.clients.add(newClient);
         }
 
     }
@@ -71,7 +76,7 @@ public class Player extends Human implements HaveMoney {
             String wantBuy = scan.next();
 
             if (wantBuy.equals("yes")) {
-                this.cash -= carsToBuy.get(i - 1).value;
+                this.cash -= carsToBuy.get(i - 1).value*1.02;
                 myCars.add(carsToBuy.get(i - 1));
                 carsToBuy.remove(i - 1);
                 Car newCar = new Car();
