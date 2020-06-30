@@ -47,7 +47,7 @@ public class Player extends Human implements HaveMoney {
     }
 
     public boolean haveMoney(int i) {
-        return this.cash > carsToBuy.get(i).value;
+        return this.cash > carsToBuy.get(i).value*1.025;
     }
     public boolean haveMoney(double price) {
         if (this.cash > price){
@@ -76,7 +76,7 @@ public class Player extends Human implements HaveMoney {
             String wantBuy = scan.next();
 
             if (wantBuy.equals("yes")) {
-                this.cash -= carsToBuy.get(i - 1).value*1.02;
+                this.cash -= carsToBuy.get(i - 1).value*1.025;
                 myCars.add(carsToBuy.get(i - 1));
                 carsToBuy.remove(i - 1);
                 Car newCar = new Car();
@@ -92,6 +92,36 @@ public class Player extends Human implements HaveMoney {
         }
     }
 
+    public void CarstoSell(int i) {
+        List<Car> carsToSell = new LinkedList<>();
+        for (int x=0; x <2; x++){
+            for (int y = 0; y < this.myCars.size(); y++){
+                if (this.clients.get(i-1).wantedBrand[x].equals(this.myCars.get(y).brand)){
+                    carsToSell.add(this.myCars.get(y));
+                }
+            }
+        }
+        if (carsToSell.size() < 1){
+            System.out.println("there is no car you can sell to him");
+            this.seeClientsMenu();
+        } else {
+            for (int q =0; q<carsToSell.size(); q++) {
+                System.out.println(q+1 + ". " + carsToSell.get(q));
+            }
+            System.out.println("choose car to sell or write 'back'");
+            String chooseCar = scan.next();
+            if (this.checkString(chooseCar)) {
+                int choosen = Integer.parseInt(chooseCar);
+                carsToSell.get(choosen - 1).sellCar(this, this.clients.get(i - 1));
+            } else if (chooseCar.equals("back")){
+                this.mainMenu();
+            } else {
+                System.out.println("dont know what to do. type again");
+                this.seeClientsMenu();
+            }
+        }
+    }
+
     public void mainMenu() {
         System.out.println("MAIN MENU:");
         System.out.println("1. Buy Car");
@@ -100,7 +130,7 @@ public class Player extends Human implements HaveMoney {
         System.out.println("4. Buy Advertisment");
         System.out.println("5. EXIT");
         System.out.println("Your Cash/Needed Cash : " + Math.round(this.cash*100d)/100d + "/" + Def_Cash * 2);
-        System.out.println("Your Score: " + this.score);
+        System.out.println("Your Score (lower is better): " + this.score);
 
         String choice = scan.next();
 
@@ -130,6 +160,10 @@ public class Player extends Human implements HaveMoney {
                 System.out.println("nothing found bro, choose again");
                 System.out.println();
                 this.mainMenu();
+        }
+        if (this.cash > this.Def_Cash * 2) {
+            System.out.println("congrat you won with score: " + this.score);
+            System.out.println("you can continue playing or exit if you want");
         }
     }
 
@@ -178,6 +212,7 @@ public class Player extends Human implements HaveMoney {
         }
 
         System.out.println();
+        System.out.println("remember you have to pay 2% tax and wash car for 0.5% value");
         System.out.println("choose car to repair, or write 'back' to return to previous menu");
 
         String chooseCar = scan.next();
@@ -217,41 +252,51 @@ public class Player extends Human implements HaveMoney {
         for (int i = 0; i < clients.size(); i++){
             System.out.println(i+1 + ". " + clients.get(i));
         }
-        System.out.println("write 'back' to return to previous menu" );
+        System.out.println("choose client to check if you have cars to sell to him");
+        System.out.println("or write 'back' to return to previous menu" );
 
         String choice = scan.next();
-        if (choice.equals("back")){
+        if (checkString(choice)) {
+            int i = Integer.parseInt(choice);
+            System.out.println("you have chosen this Client");
+            System.out.println(this.clients.get(i-1));
+            System.out.println("and you can sell him this cars:");
+            this.CarstoSell(i);
+        } else if (choice.equals("back")){
             this.mainMenu();
+        } else {
+            System.out.println("dont know what to do. type again");
+            this.seeClientsMenu();
         }
     }
 
-    public void buyAddMenu(){
+    public void buyAddMenu() {
         System.out.println("1. Newspaper Add: 15000$");
         System.out.println("2. Online Add: 10000$");
         System.out.println();
         System.out.println("type number what add you want to buy, or back to go to previous menu");
 
         String choice = scan.next();
-        switch(choice) {
+        switch (choice) {
             case "1":
-                if (this.cash > 15000.0) {
+                if (haveMoney(15000.0)) {
                     System.out.println("you bought Newspaper add");
                     int randomNum = ThreadLocalRandom.current().nextInt(2, 6);
                     for (int i = 0; i < randomNum; i++) {
                         Client newClient = new Client();
                         this.clients.add(newClient);
                     }
-                }else {
+                } else {
                     System.out.println("you dont have money");
                 }
                 this.mainMenu();
                 break;
             case "2":
-                if(this.cash > 10000.0) {
+                if (haveMoney(10000.0)) {
                     System.out.println("you bought online add");
                     Client newClient = new Client();
                     this.clients.add(newClient);
-                }else {
+                } else {
                     System.out.println("you dont have money");
                 }
                 this.mainMenu();
@@ -263,6 +308,7 @@ public class Player extends Human implements HaveMoney {
                 this.buyAddMenu();
         }
     }
+
 
     @Override
     public boolean haveMoney() {

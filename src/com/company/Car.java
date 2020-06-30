@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.people.Client;
 import com.company.people.Player;
 
 import java.util.Random;
@@ -10,7 +11,7 @@ import static java.lang.Math.*;
 
 public class Car extends Elements {
     public double value;
-    private String brand;
+    public String brand;
     private double mileage;
     private String colour;
     private String segment;
@@ -371,6 +372,19 @@ public class Car extends Elements {
                 break;
             default:
                 break;
+        }
+    }
+
+    public void sellCar(Player player, Client client) {
+        if (player.haveMoney(client.cash)){
+            player.myCars.remove(this);
+            player.cash -= this.value *0.025;
+            player.cash += client.cash;
+            System.out.println("congrats you sold car.");
+            player.mainMenu();
+        } else {
+            System.out.println("you dont have money");
+            player.seeClientsMenu();
         }
     }
 }
