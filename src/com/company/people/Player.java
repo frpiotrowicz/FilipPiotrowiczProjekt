@@ -1,11 +1,11 @@
 package com.company.people;
 
 import com.company.Car;
-import org.w3c.dom.ls.LSOutput;
-
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Player extends Human implements HaveMoney {
     private static final int Def_Score = 0;
@@ -99,7 +99,7 @@ public class Player extends Human implements HaveMoney {
         System.out.println("3. Clients");
         System.out.println("4. Buy Advertisment");
         System.out.println("5. EXIT");
-        System.out.println("Your Cash: " + Math.round(this.cash*100d)/100d + "/" + Def_Cash * 2);
+        System.out.println("Your Cash/Needed Cash : " + Math.round(this.cash*100d)/100d + "/" + Def_Cash * 2);
         System.out.println("Your Score: " + this.score);
 
         String choice = scan.next();
@@ -218,11 +218,50 @@ public class Player extends Human implements HaveMoney {
             System.out.println(i+1 + ". " + clients.get(i));
         }
         System.out.println("write 'back' to return to previous menu" );
+
+        String choice = scan.next();
+        if (choice.equals("back")){
+            this.mainMenu();
+        }
     }
 
     public void buyAddMenu(){
-        System.out.println("1. Newspaper Add");
-        System.out.println("1. Online Add");
+        System.out.println("1. Newspaper Add: 15000$");
+        System.out.println("2. Online Add: 10000$");
+        System.out.println();
+        System.out.println("type number what add you want to buy, or back to go to previous menu");
+
+        String choice = scan.next();
+        switch(choice) {
+            case "1":
+                if (this.cash > 15000.0) {
+                    System.out.println("you bought Newspaper add");
+                    int randomNum = ThreadLocalRandom.current().nextInt(2, 6);
+                    for (int i = 0; i < randomNum; i++) {
+                        Client newClient = new Client();
+                        this.clients.add(newClient);
+                    }
+                }else {
+                    System.out.println("you dont have money");
+                }
+                this.mainMenu();
+                break;
+            case "2":
+                if(this.cash > 10000.0) {
+                    System.out.println("you bought online add");
+                    Client newClient = new Client();
+                    this.clients.add(newClient);
+                }else {
+                    System.out.println("you dont have money");
+                }
+                this.mainMenu();
+                break;
+            case "back":
+                this.mainMenu();
+            default:
+                System.out.println("dont know what to do. type again");
+                this.buyAddMenu();
+        }
     }
 
     @Override
