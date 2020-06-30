@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Player extends Human {
+public class Player extends Human implements HaveMoney {
     private static final int Def_Score = 0;
     private static final double Def_Cash = 100000.0;
     public int score;
@@ -43,6 +43,14 @@ public class Player extends Human {
 
     public boolean haveMoney(int i) {
         return this.cash > carsToBuy.get(i).value;
+    }
+    public boolean haveMoney(double price) {
+        if (this.cash > price){
+            return true;
+        } else {
+            System.out.println("You dont have money!");
+            return false;
+        }
     }
 
     public boolean checkString(String choice){
@@ -105,9 +113,9 @@ public class Player extends Human {
                 this.buyAddMenu();
                 break;
             case "5":
-                System.out.println("you sure? type 'yes' if so, or anything else to go back");
+                System.out.println("you sure to exit? type 'exit' if so, or anything else to go back");
                 String yes = scan.next();
-                if (yes.equals("yes")) {
+                if (yes.equals("exit")) {
                     break;
                 } else {
                     this.mainMenu();
@@ -183,6 +191,7 @@ public class Player extends Human {
                 if (elementExist(element)) {
                     this.myCars.get(i - 1).chooseMechanic(element, this);
                 } else {
+                    System.out.println("there is no such car");
                     this.yourCarsMenu();
                 }
 
@@ -207,5 +216,10 @@ public class Player extends Human {
     public void buyAddMenu(){
         System.out.println("1. Newspaper Add");
         System.out.println("1. Online Add");
+    }
+
+    @Override
+    public boolean haveMoney() {
+        return false;
     }
 }

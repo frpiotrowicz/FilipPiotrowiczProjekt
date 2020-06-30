@@ -7,12 +7,4 @@ public abstract class Elements {
         } else {return "ok";}
     }
 
-    public boolean repair(boolean element){
-        if (!element) {
-            return true;
-        } else {
-            System.out.println("it doesnt need repair");
-            return false;
-        }
-    }
 }
