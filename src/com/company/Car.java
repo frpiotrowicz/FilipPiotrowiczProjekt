@@ -271,8 +271,11 @@ public class Car extends Elements {
     public void januszRepair(String element, Player player) {
         chooseRepair(element, player, 1.0);
         System.out.println("congrats. car rapaired successfully");
+        Client newClient = new Client();
+        player.clients.add(newClient);
         System.out.println(this);
         System.out.println();
+        player.score +=1;
         player.yourCarsMenu();
     }
 
@@ -280,6 +283,8 @@ public class Car extends Elements {
         int randomInt = random.nextInt(99);
         if (randomInt < 90) {
             chooseRepair(element, player, 0.66);
+            Client newClient = new Client();
+            player.clients.add(newClient);
             System.out.println("congrats. car rapaired successfully");
             System.out.println(this);
             System.out.println();
@@ -290,6 +295,7 @@ public class Car extends Elements {
             System.out.println("sorry repair failed.");
             repairAfterFail(element, player);
         }
+        player.score +=1;
        }
 
     public void adrianRepair(String element, Player player){
@@ -298,16 +304,19 @@ public class Car extends Elements {
         }
         if (random.nextInt(99) < 80) {
             chooseRepair(element, player, 0.66);
+            Client newClient = new Client();
+            player.clients.add(newClient);
             System.out.println("congrats. car rapaired successfully");
             System.out.println(this);
             System.out.println();
             player.yourCarsMenu();
         } else {
             this.repairFailed = true;
-            this.chooseRepairFail(element, player, 0.66);
             System.out.println("sorry repair failed.");
+            this.chooseRepairFail(element, player, 0.66);
             repairAfterFail(element, player);
         }
+        player.score +=1;
     }
 
 
@@ -376,14 +385,17 @@ public class Car extends Elements {
     }
 
     public void sellCar(Player player, Client client) {
-        if (player.haveMoney(client.cash)){
+        if (client.haveMoney(this.value*1.1)){
             player.myCars.remove(this);
             player.cash -= this.value *0.025;
-            player.cash += client.cash;
+            player.cash += this.value*1.1;
+            player.clients.remove(client);
+            Client newClient = new Client();
+            player.clients.add(newClient);
+            player.score +=1;
             System.out.println("congrats you sold car.");
             player.mainMenu();
         } else {
-            System.out.println("you dont have money");
             player.seeClientsMenu();
         }
     }

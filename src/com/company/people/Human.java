@@ -15,4 +15,13 @@ public class Human {
 
     }
 
+    public boolean haveMoney(double price) {
+        if (this.cash > price){
+            return true;
+        } else {
+            System.out.println("You dont have money!");
+            return false;
+        }
+    }
+
 }

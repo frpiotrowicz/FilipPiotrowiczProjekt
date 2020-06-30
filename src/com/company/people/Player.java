@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Player extends Human implements HaveMoney {
     private static final int Def_Score = 0;
     private static final double Def_Cash = 100000.0;
-    public int score;
+    public int score = 0;
     public List<Car> myCars = new LinkedList<>();
     public List<Car> carsToBuy = new LinkedList<>();
     public List<Client> clients = new LinkedList<>();
@@ -49,14 +49,6 @@ public class Player extends Human implements HaveMoney {
     public boolean haveMoney(int i) {
         return this.cash > carsToBuy.get(i).value*1.025;
     }
-    public boolean haveMoney(double price) {
-        if (this.cash > price){
-            return true;
-        } else {
-            System.out.println("You dont have money!");
-            return false;
-        }
-    }
 
     public boolean checkString(String choice){
         try {
@@ -81,6 +73,9 @@ public class Player extends Human implements HaveMoney {
                 carsToBuy.remove(i - 1);
                 Car newCar = new Car();
                 this.carsToBuy.add(newCar);
+                Client newClient = new Client();
+                this.clients.add(newClient);
+                this.score +=1;
                 this.mainMenu();
             } else {
                 this.buyCarMenu();
@@ -249,6 +244,7 @@ public class Player extends Human implements HaveMoney {
     }
 
     public  void seeClientsMenu(){
+        System.out.println("YOU SELLING WITH 10% margin from value");
         for (int i = 0; i < clients.size(); i++){
             System.out.println(i+1 + ". " + clients.get(i));
         }
@@ -285,6 +281,7 @@ public class Player extends Human implements HaveMoney {
                     for (int i = 0; i < randomNum; i++) {
                         Client newClient = new Client();
                         this.clients.add(newClient);
+                        this.score +=1;
                     }
                 } else {
                     System.out.println("you dont have money");
@@ -296,6 +293,7 @@ public class Player extends Human implements HaveMoney {
                     System.out.println("you bought online add");
                     Client newClient = new Client();
                     this.clients.add(newClient);
+                    this.score +=1;
                 } else {
                     System.out.println("you dont have money");
                 }

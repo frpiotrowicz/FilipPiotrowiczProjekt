@@ -51,7 +51,7 @@ public class Client extends Human{
     public String toString() {
         return "client{" +
                 "name=" + this.name +
-                ", wanna pay=" + this. cash +
+                ", cash=" + this. cash +
                 ", wantedBrand=" + Arrays.toString(wantedBrand) +
                 '}';
     }
