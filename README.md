@@ -1,6 +1,8 @@
 # Car dealership game
 > A console game simulating a car dealership
 
+![](./car.png)
+
 ## Table of Contents
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
